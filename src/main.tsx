@@ -6,9 +6,7 @@ import { TodoProvider } from './store/to-do-context.tsx';
 import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  // <React.StrictMode>
   <TodoProvider>
     <App />
   </TodoProvider>,
-  // </React.StrictMode>,
 );
