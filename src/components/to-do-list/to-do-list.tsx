@@ -7,8 +7,8 @@ function ToDoList() {
 
   return (
     <ToDoListContainer>
-      {todos.map((todo) => (
-        <ToDoItem key={todo.id} {...todo} />
+      {todos.map((todo, index) => (
+        <ToDoItem key={todo.id} {...todo} order={index} />
       ))}
     </ToDoListContainer>
   );

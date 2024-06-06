@@ -6,3 +6,14 @@ export async function getTodos(): Promise<ResponseData<Todo[]>> {
 
   return response.data;
 }
+
+export async function checkTodo(
+  id: number,
+  isDone: boolean,
+): Promise<ResponseData<Todo[]>> {
+  const response = await api.put<ResponseData<Todo[]>>('/api/todos/' + id, {
+    isDone: isDone,
+  });
+
+  return response.data;
+}

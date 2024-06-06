@@ -13,6 +13,8 @@ interface TodoContextType {
   todos: Todo[];
   onGetTodos?: () => Promise<void>;
   deleteTodo?: (id: string) => void;
+  isHasError?: boolean;
+  isLoading?: boolean;
 }
 
 const TodoContext = createContext<TodoContextType | null>({
@@ -25,19 +27,8 @@ interface TodoProviderProps {
 
 export function TodoProvider({ children }: TodoProviderProps) {
   const [todos, setTodo] = useState<Todo[]>([]);
-
-  async function handleGetTodos() {
-    try {
-      const data = await getTodos();
-      if (data.code === 0) {
-        setTodo(data.data);
-      } else {
-        toast.error(data.message);
-      }
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  }
+  const [isHasError, setIsHasError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
@@ -45,9 +36,35 @@ export function TodoProvider({ children }: TodoProviderProps) {
     })();
   }, []);
 
+  async function handleGetTodos() {
+    setIsLoading(true);
+
+    try {
+      const data = await getTodos();
+      if (data.code === 0) {
+        setTodo(data.data);
+        setIsHasError(false);
+      } else {
+        toast.error(data.message);
+        setIsHasError(true);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+      setIsHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <TodoContext.Provider
-      value={{ todos, onGetTodos: handleGetTodos, deleteTodo: handleGetTodos }}
+      value={{
+        todos,
+        onGetTodos: handleGetTodos,
+        deleteTodo: handleGetTodos,
+        isHasError,
+        isLoading,
+      }}
     >
       <ToastContainer />
       {children}
