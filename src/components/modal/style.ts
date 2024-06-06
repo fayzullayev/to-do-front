@@ -6,17 +6,29 @@ export const ModalContainer = styled.section`
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: start;
   justify-content: center;
+  z-index: 3000;
 `;
 
 export const ModalContent = styled.section`
   min-width: 300px;
   padding: 16px;
   border-radius: 8px;
-  background: #d7d3d3;
+  background: white;
 
   margin-top: 200px;
+  animation: scaling 0.2s ease-in-out;
+  z-index: 3000;
+
+  @keyframes scaling {
+    from {
+      scale: 0.5;
+    }
+    to {
+      scale: 1;
+    }
+  }
 `;
