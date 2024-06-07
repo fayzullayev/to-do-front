@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ErrorContainer = styled.section`
+export const NoDataContainer = styled.section`
   height: 120px;
   display: flex;
   align-items: center;

@@ -7,8 +7,9 @@ import {
   ToDoItemTitle,
 } from './style.ts';
 import { Todo } from '../../types/types.ts';
-import { changeTodo } from '../../api/to-do.ts';
+import { changeTodo, deleteTodo } from '../../api/to-do.ts';
 import ToDoChange from '../to-do-change';
+import { useTodo } from '../../store/to-do-context.tsx';
 
 type ToDoItemProps = {
   order: number;
@@ -17,7 +18,10 @@ type ToDoItemProps = {
 function ToDoItem({ title, isDone, id, order }: ToDoItemProps) {
   const [isChecked, setIsChecked] = useState<boolean>(isDone);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [todoTitle, setTodoTitle] = useState<string>(title);
+
+  const { onGetTodos } = useTodo();
 
   async function handleToggleCheck() {
     try {
@@ -38,7 +42,6 @@ function ToDoItem({ title, isDone, id, order }: ToDoItemProps) {
   }
 
   function handleCloseModal() {
-    console.log(12345678);
     setIsEditing(false);
   }
 
@@ -46,13 +49,36 @@ function ToDoItem({ title, isDone, id, order }: ToDoItemProps) {
     handleOpenModal();
   }
 
-  async function handleTitleChange(title: string) {
+  function handleToggleDeleteClose() {
+    setIsDeleting(false);
+  }
+
+  function handleToggleDeleteOpen() {
+    setIsDeleting(true);
+  }
+
+  async function handleTitleChange(title: string | number) {
     try {
       const data = await changeTodo(id, { title });
       if (data.code === 0) {
         toast.success(data.message);
         setIsEditing(false);
-        setTodoTitle(title);
+        setTodoTitle(title.toString());
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  }
+
+  async function handleTodoDelete(_: string | number) {
+    try {
+      const data = await deleteTodo(+id);
+      if (data.code === 0) {
+        toast.success(data.message);
+        handleToggleDeleteClose();
+        await onGetTodos!();
       } else {
         toast.error(data.message);
       }
@@ -70,6 +96,14 @@ function ToDoItem({ title, isDone, id, order }: ToDoItemProps) {
         onCancel={handleCloseModal}
       />
 
+      <ToDoChange
+        isOpen={isDeleting}
+        onOk={handleTodoDelete}
+        onCancel={handleToggleDeleteClose}
+        value={todoTitle}
+        isDeleteComponent={true}
+      />
+
       <ToDoItemTitle>
         <span>{order + 1}.</span>
         <span className={'title'}>{' ' + todoTitle}</span>
@@ -79,7 +113,7 @@ function ToDoItem({ title, isDone, id, order }: ToDoItemProps) {
       <ToDoItemActions $isChecked={isChecked}>
         <i className="fas fa-check check" onClick={handleToggleCheck}></i>
         <i className="fas fa-pen edit" onClick={handleToggleEditing}></i>
-        <i className="fas fa-trash delete"></i>
+        <i className="fas fa-trash delete" onClick={handleToggleDeleteOpen}></i>
       </ToDoItemActions>
     </ToDoItemContainer>
   );

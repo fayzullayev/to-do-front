@@ -4,19 +4,29 @@ import Button from '../button';
 import { ButtonGroup, ToDoChangeContainer, ToDoChangeInput } from './style.ts';
 
 type ToDoChangeProps = {
-  value: string;
-  onOk: (title: string) => void;
+  value: string | number;
+  onOk: (title: string | number) => void;
   onCancel: () => void;
   isOpen: boolean;
+  isDeleteComponent?: boolean;
 };
 
-function ToDoChange({ value, onOk, isOpen, onCancel }: ToDoChangeProps) {
+function ToDoChange({
+  value,
+  onOk,
+  isOpen,
+  onCancel,
+  isDeleteComponent = false,
+}: ToDoChangeProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.value = value;
+      isDeleteComponent
+        ? (inputRef.current.disabled = true)
+        : inputRef.current.focus();
+
+      inputRef.current.value = value.toString();
     }
   }, [isOpen]);
 
@@ -28,7 +38,13 @@ function ToDoChange({ value, onOk, isOpen, onCancel }: ToDoChangeProps) {
     isOpen && (
       <Modal onCancel={onCancel}>
         <ToDoChangeContainer>
-          <form onSubmit={handleSubmit}>
+          {isDeleteComponent && <h2>Are you sure delete this task?</h2>}
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              handleSubmit();
+            }}
+          >
             <ToDoChangeInput ref={inputRef} type="text" />
           </form>
           <ButtonGroup>

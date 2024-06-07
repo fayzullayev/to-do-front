@@ -54,6 +54,7 @@ export const ToDoItemActions = styled.div<{ $isChecked: boolean }>`
     padding: 12px;
     border-radius: 8px;
     transition: 0.4s ease-in-out;
+    margin-left: 5px;
 
     &:hover {
       background-color: #401978;
