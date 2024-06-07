@@ -21,3 +21,11 @@ export async function deleteTodo(id: number): Promise<ResponseData<void>> {
 
   return response.data;
 }
+
+export async function addTodo(title: string): Promise<ResponseData<number>> {
+  const response = await api.post<ResponseData<number>>('/api/todos', {
+    title,
+  });
+
+  return response.data;
+}

@@ -7,4 +7,7 @@ export const ToDoContainer = styled.section`
   box-shadow: -17px -17px rgba(0, 0, 0, 0.08);
 
   margin-top: 48px;
+
+  padding-bottom: 16px;
+  margin-bottom: 32px;
 `;

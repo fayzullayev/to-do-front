@@ -5,7 +5,7 @@ export const NoDataContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 40px;
+  padding-bottom: 24px;
   flex-direction: column;
 
   .fas {

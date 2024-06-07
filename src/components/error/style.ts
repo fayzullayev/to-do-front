@@ -5,18 +5,18 @@ export const ErrorContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 40px;
+  padding-bottom: 24px;
   flex-direction: column;
 
   .fas {
     font-size: 64px;
-    color: #d7d3d3;
+    color: #fe6a6b;
     display: block;
   }
 
   h3 {
     display: block;
-    color: #d7d3d3;
+    color: #fe6a6b;
     margin-bottom: 0;
   }
 `;

@@ -12,6 +12,7 @@ function ToDo() {
   return (
     <ToDoContainer>
       <ToDoHeader />
+      <ToDoCreateForm />
       {todos.length === 0 && !isLoading && !isHasError && <NoData />}
 
       {isLoading ? (
@@ -21,7 +22,6 @@ function ToDo() {
       ) : (
         <ToDoList />
       )}
-      <ToDoCreateForm />
     </ToDoContainer>
   );
 }
