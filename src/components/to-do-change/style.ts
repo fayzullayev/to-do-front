@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 
 export const ToDoChangeContainer = styled.section`
-  z-index: 999;
+  width: 400px;
 `;
 
-export const ToDoChangeInput = styled.input``;
+export const ToDoChangeInput = styled.input`
+  width: 100%;
+  margin: 16px 0;
+  height: 32px;
+  font-size: 18px;
+`;
 
 export const ButtonGroup = styled.div`
   display: flex;
   justify-content: flex-end;
-  z-index: 999;
 
   button {
     margin-left: 8px;

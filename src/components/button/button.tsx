@@ -5,8 +5,8 @@ type ButtonProps = {
   children: ReactNode;
 } & HTMLAttributes<HTMLButtonElement>;
 
-function Button({ children }: ButtonProps) {
-  return <ButtonContainer>{children}</ButtonContainer>;
+function Button({ children, ...props }: ButtonProps) {
+  return <ButtonContainer {...props}>{children}</ButtonContainer>;
 }
 
 export default Button;

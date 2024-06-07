@@ -1,28 +1,39 @@
-import { ButtonGroup, ToDoChangeContainer, ToDoChangeInput } from './style.ts';
+import { useEffect, useRef } from 'react';
 import Modal from '../modal';
 import Button from '../button';
+import { ButtonGroup, ToDoChangeContainer, ToDoChangeInput } from './style.ts';
 
 type ToDoChangeProps = {
   value: string;
-  onOk: () => void;
+  onOk: (title: string) => void;
   onCancel: () => void;
   isOpen: boolean;
 };
 
 function ToDoChange({ value, onOk, isOpen, onCancel }: ToDoChangeProps) {
-  function handleToggleCheckbox() {
-    console.log(2345678);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.value = value;
+    }
+  }, [isOpen]);
+
+  function handleSubmit() {
+    onOk(inputRef.current!.value);
   }
 
-  console.log('isOpen', isOpen);
   return (
     isOpen && (
-      <Modal>
+      <Modal onCancel={onCancel}>
         <ToDoChangeContainer>
-          {/*<ToDoChangeInput type="text" value={value} />*/}
+          <form onSubmit={handleSubmit}>
+            <ToDoChangeInput ref={inputRef} type="text" />
+          </form>
           <ButtonGroup>
-            <Button onClick={handleToggleCheckbox}>Cancel1</Button>
-            <Button onClick={onOk}>Ok</Button>
+            <Button onClick={onCancel}>Cancel</Button>
+            <Button onClick={handleSubmit}>Ok</Button>
           </ButtonGroup>
         </ToDoChangeContainer>
       </Modal>

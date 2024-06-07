@@ -6,11 +6,10 @@ export const ModalContainer = styled.section`
   height: 100%;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: start;
   justify-content: center;
-  z-index: 3000;
 `;
 
 export const ModalContent = styled.section`
@@ -18,10 +17,8 @@ export const ModalContent = styled.section`
   padding: 16px;
   border-radius: 8px;
   background: white;
-
   margin-top: 200px;
   animation: scaling 0.2s ease-in-out;
-  z-index: 3000;
 
   @keyframes scaling {
     from {

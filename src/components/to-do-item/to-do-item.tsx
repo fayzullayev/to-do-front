@@ -7,7 +7,7 @@ import {
   ToDoItemTitle,
 } from './style.ts';
 import { Todo } from '../../types/types.ts';
-import { checkTodo } from '../../api/to-do.ts';
+import { changeTodo } from '../../api/to-do.ts';
 import ToDoChange from '../to-do-change';
 
 type ToDoItemProps = {
@@ -17,10 +17,11 @@ type ToDoItemProps = {
 function ToDoItem({ title, isDone, id, order }: ToDoItemProps) {
   const [isChecked, setIsChecked] = useState<boolean>(isDone);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [todoTitle, setTodoTitle] = useState<string>(title);
 
   async function handleToggleCheck() {
     try {
-      const data = await checkTodo(id, !isChecked);
+      const data = await changeTodo(id, { isDone: !isChecked });
       if (data.code === 0) {
         toast.success(data.message);
         setIsChecked((prevIsChecked) => !prevIsChecked);
@@ -45,20 +46,33 @@ function ToDoItem({ title, isDone, id, order }: ToDoItemProps) {
     handleOpenModal();
   }
 
-  console.log('isEditing', isEditing);
+  async function handleTitleChange(title: string) {
+    try {
+      const data = await changeTodo(id, { title });
+      if (data.code === 0) {
+        toast.success(data.message);
+        setIsEditing(false);
+        setTodoTitle(title);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  }
 
   return (
     <ToDoItemContainer>
       <ToDoChange
         isOpen={isEditing}
-        value={title}
-        onOk={() => {}}
+        value={todoTitle}
+        onOk={handleTitleChange}
         onCancel={handleCloseModal}
       />
 
       <ToDoItemTitle>
         <span>{order + 1}.</span>
-        <span className={'title'}>{' ' + title}</span>
+        <span className={'title'}>{' ' + todoTitle}</span>
         <Line $isChecked={isChecked} />
       </ToDoItemTitle>
 
