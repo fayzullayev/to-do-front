@@ -8,6 +8,6 @@ export const ToDoContainer = styled.section`
 
   margin-top: 48px;
 
-  padding-bottom: 16px;
+  //padding-bottom: 32px;
   margin-bottom: 32px;
 `;

@@ -12,7 +12,7 @@ function ToDo() {
   return (
     <ToDoContainer>
       <ToDoHeader />
-      <ToDoCreateForm />
+      {!isHasError && <ToDoCreateForm />}
       {todos.length === 0 && !isLoading && !isHasError && <NoData />}
 
       {isLoading ? (
